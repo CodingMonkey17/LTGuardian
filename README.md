@@ -71,196 +71,83 @@ This prototype covers:
 - `balance_before`: Account balance before action
 - `balance_after`: Account balance after action
 - `deposit_amount`: Deposit amount (if deposit)
-- `withdraw_amount`: Withdrawal amount (if withdrawal)
+# LTGuardian AML™ - AI Modeling Module
 
-### Behavioral Fields
-- `game_result`: Win/Lose outcome
-- `device`: Device type (iPhone, Android, PC, ETG)
-- `ip_address`: IP address
-- `location`: Geographic location (Macau, US, EU, VPN)
-- `time_since_last_action`: Seconds between actions
-- `bet_direction`: Bet type (player/banker/tie for Baccarat)
+This repository contains the synthetic AML data generation and supporting artifacts used for experimentation with behavioral fingerprinting and transaction anomaly detection in online gaming.
 
-### Labels
-- `player_label`: Detailed player type classification
-- `is_suspicious`: Boolean flag for suspicious behavior
+## What's new (most recent notebook run)
 
-## Player Types Simulated
+- Notebook: `notebooks/01_data_generation.ipynb` updated to include IBM-style transaction fields and multi-bank, multi-currency simulation.
+- New IBM-compatible fields added to every transaction row:
+  - `from_bank`, `to_bank` (institution routing)
+  - `amount_paid`, `paying_currency` (sender perspective)
+  - `amount_received`, `receiving_currency` (receiver perspective — FX applied)
+  - `payment_format` (ACH, Wire, Credit Card, Cash, Cheque, Reinvestment, Swish)
+- Expanded currency set (USD, EUR, GBP, SEK, CNY, JPY, INR, RUB, BRL, MXN, CAD, AUD, CHF, SAR, ILS, BTC).
+- FX conversion helper (`fx_convert()`) introduced to simulate differing sender/receiver amounts for cross-currency transfers.
+- `generate_transfer()` and all action generators were updated to keep existing topology behaviour but include the IBM fields for compatibility with cross-dataset evaluation.
 
-### Normal Players (Baseline Behavior)
+## Files produced (current run)
 
-1. **Normal Type A - Casual Low Bettor**
-   - Small bets (10-50)
-   - Slow rhythm (5-12 seconds between bets)
-   - Linear deposit/withdraw patterns
-   - No sudden spikes
+- `data/aml_synthetic_data.csv` — Transaction-level log (29,513 rows, 32 columns). This is the primary TxLog containing the IBM-compatible fields.
+- `data/aml_nodes.csv` — Per-account node features (446 accounts) computed by `build_node_features()` (Table II features).
+- `data/aml_edges.csv` — Edge file for graph analysis (29,513 rows) with `from_bank`/`to_bank` and amount splits.
+- `data/data_generation_summary.png` — Summary visualisation saved by the notebook.
+- `data/topology_graphs.png` — Saved directed-graph visualisation of the topology clusters.
 
-2. **Normal Type B - Medium Stable Bettor**
-   - Consistent range (50-200)
-   - Mild variance
-   - Long stable sessions (20-40 minutes)
+See the data directory for exact file timestamps and sizes.
 
-3. **Normal Type C - Hot/Cold Player**
-   - Behavioral swings based on wins/losses
-   - Higher variance
-   - Chase behavior after losses
+## Quick notes and mapping
 
-### Suspicious Players (AML Risk Patterns)
+- Transaction IDs in the generated dataset use a sequential `TX_` prefix (e.g. `TX_0026836`) assigned in chronological order; they are unique and safe to use as primary keys. If you prefer an IBM-style bank ID format, the notebook includes a simple place to change the `transaction_id` generator.
+- Topology node display labels in the notebook plots (e.g. `S00`, `N01`) are short forms of full account IDs like `TOPO_FI_0000_S00` or `TOPO_CYC_0000_N01`. You can find all topology accounts in `aml_nodes.csv` by filtering `account_id.str.startswith('TOPO_')` or by filtering `player_label` (e.g. `Topology_Fan-in`).
 
-1. **Structuring Behavior**
-   - 20+ small deposits just under reporting thresholds (700-950)
-   - Minimal gameplay
-   - Quick withdrawal
+## How to regenerate the dataset
 
-2. **Rapid In/Out**
-   - Large deposit (8,000-12,000)
-   - 5-10 minimal bets
-   - Immediate withdrawal of 95-98%
-
-3. **High Volatility Spike**
-   - Normal betting baseline (30-70)
-   - Sudden massive bets (3,000-6,000)
-   - Return to normal
-
-4. **Coordinated Accounts**
-   - Multiple accounts with identical betting rhythm
-   - Same IP range
-   - Shared device patterns
-
-5. **Bot-Like Behavior**
-   - Perfectly consistent timing (exact intervals)
-   - No variance in bet amounts
-   - No emotional variation
-
-6. **Crypto Laundering**
-   - VPN/crypto deposits
-   - Intentional losses (70% loss rate)
-   - Withdrawal via different method
-
-## Repository Structure
-
-```
-aml/
-├── README.md                           # This file
-├── data/
-│   ├── aml_synthetic_data.csv         # Generated dataset (4.8 MB)
-│   └── data_generation_summary.png    # Visualization of data patterns
-├── notebooks/
-│   └── 01_data_generation.ipynb       # Data generation notebook
-├── src/                                # Future: feature extraction, models
-└── venv/                               # Python virtual environment
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Python 3.8+
-- Jupyter Notebook/Lab
-- Required packages: `numpy`, `pandas`, `matplotlib`, `seaborn`, `scikit-learn`
-
-### Installation
+1. Activate the project venv:
 
 ```bash
-# Activate virtual environment
 source venv/bin/activate
-
-# Install dependencies (if needed)
-pip install numpy pandas matplotlib seaborn scikit-learn jupyter
 ```
 
-### Running the Notebook
+2. Run the notebook in Jupyter or VS Code. From repository root:
 
 ```bash
-cd notebooks
-jupyter notebook 01_data_generation.ipynb
+jupyter nbconvert --to notebook --execute notebooks/01_data_generation.ipynb --inplace
 ```
 
-Or open directly in VS Code with Jupyter extension.
+Or open `notebooks/01_data_generation.ipynb` in Jupyter/VS Code and run the cells interactively.
 
-## Usage
+## Where to look for changed code
 
-### Generate New Dataset
+- Helper & FX code: `notebooks/01_data_generation.ipynb` (Helper functions section)
+- Action generators (bets, deposits, withdrawals, transfers): same notebook (Action generator section)
+- Edge builder and node feature export: `build_edge_file()` and `build_node_features()` in the notebook
 
-The notebook is organized into sections:
+## Quick example queries
 
-1. **Import libraries** - Load required Python packages
-2. **Helper functions** - Random data generators
-3. **Action generators** - Bets, deposits, withdrawals
-4. **Normal player simulators** - 3 baseline behavior types
-5. **Suspicious player simulators** - 6 AML risk patterns
-6. **Dataset generation** - Combine all player types
-7. **Statistics & visualization** - Analyze results
-
-### Customization
-
-Adjust dataset parameters in the main generation cell:
+Filter for transactions involving a topology cluster (in Python):
 
 ```python
-df = generate_full_dataset(
-    num_normal_A=50,              # Casual low bettors
-    num_normal_B=50,              # Medium stable bettors
-    num_normal_C=50,              # Hot/cold players
-    num_suspicious_structuring=10,
-    num_suspicious_rapid=10,
-    num_suspicious_spike=10,
-    num_suspicious_bot=8,
-    num_suspicious_crypto=8,
-    num_coordinated_groups=5      # Groups of 2-3 accounts
-)
+edge_df = pd.read_csv('../data/aml_edges.csv')
+topo_edges = edge_df[edge_df['from_account'].str.startswith('TOPO_') |
+                     edge_df['to_account'].str.startswith('TOPO_')]
+
+# Collector account example
+coll = edge_df[(edge_df['from_account']=='TOPO_FI_0000_COLL') | (edge_df['to_account']=='TOPO_FI_0000_COLL')]
 ```
 
-## Data Quality Features
+## Summary
 
-**Realistic Patterns**: Simulated from actual casino behavior patterns  
-**Noise & Variance**: Random jitter in timing and amounts  
-**Game-Agnostic**: Based on financial behavior, not game rules  
-**Balanced Dataset**: Mix of normal (72%) and suspicious (28%) players  
-**Rich Metadata**: Device, IP, location, timing information  
-**Labeled Ground Truth**: Clear labels for supervised learning
+The recent updates add IBM-style transaction routing and currency realism while preserving the original topology simulation and node/edge export behaviour. If you want any of the following, tell me which and I'll apply it:
 
-## Design Approach
-
-### Game-Agnostic Design
-
-AML modeling focuses on financial behavior patterns rather than game-specific rules. The approach captures:
-- Betting patterns and deposit/withdrawal cycles
-- Transaction timing and rhythm
-- Device and IP patterns
-- AML red flags consistent across game types
-
-### Synthetic Data Methodology
-
-The implementation generates realistic synthetic data by:
-- Applying domain knowledge of actual AML patterns
-- Incorporating behavioral variance and noise
-- Simulating known money laundering techniques
-- Including contextual metadata (devices, IPs, locations)
-
-## Technical Implementation
-
-### Data Schema Structure
-
-**Transaction Actions**: Each row represents a single action (bet, deposit, or withdrawal). Fields not applicable to the action type contain null values, maintaining data normalization.
-
-**Time-Series Design**: The schema supports temporal analysis through timestamp ordering, inter-transaction timing capture, and session-based grouping.
-
-**Behavioral Context**: Rich metadata enables multi-dimensional analysis including device fingerprinting, IP geolocation, balance tracking, and session consistency checks.
-
-### Player Behavior Simulation
-
-**Normal Behaviors**: Three types representing casual low bettors, medium stable bettors, and hot/cold players with variance.
-
-**Suspicious Patterns**: Six AML risk patterns based on FATF guidelines and casino AML best practices - structuring, rapid in/out, volatility spikes, coordinated accounts, bot behavior, and crypto laundering.
-
-## References
-
-- **AML Standards**: FATF guidelines and international AML regulations
-- **Behavioral Modeling**: Transaction-level approach for real-time monitoring
-- **Future Integration**: Designed for GRIP-AML API and LTGuardian ecosystem
+- Change `transaction_id` format to IBM-style bank IDs
+- Produce a separate CSV with only IBM columns (for ingestion into another pipeline)
+- Add per-transaction FX rate and rounding noise options
 
 ---
+Repository root: this file (`README.md`)
+Notebook: `notebooks/01_data_generation.ipynb`
+Data outputs: `data/aml_synthetic_data.csv`, `data/aml_nodes.csv`, `data/aml_edges.csv`
 
-**Last Updated**: January 2026  
-**Version**: 0.1.0 (Phase 1-2 Complete)
-   
+
