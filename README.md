@@ -13,28 +13,6 @@ This prototype covers:
 3. **Risk Scoring Prototype** - Combine rule-based + ML approaches
 4. **Synthetic Data Generation** - Realistic transaction datasets for training
 
-## Project Timeline
-
-| # | Phase | Tasks | Duration (weeks) | Start Date | End Date |
-|---|-------|-------|------------------|------------|----------|
-| 1 | Project Setup & Research | AML concepts, online AML/KYC flows (crypto, platforms) | 2 | Dec 1, 2025 | Dec 14, 2025 |
-| 2 | Project Setup & Research | Review ML libraries & AML modeling approaches | 2 | Dec 15, 2025 | Dec 28, 2025 |
-| 3 | Data Design | Define online AML data schema (transactions, timing, device, IP) | 2 | Dec 29, 2025 | Jan 11, 2026 |
-| 4 | Synthetic Data Generation | Simulate normal online user behavior | 3 | Jan 12, 2026 | Feb 1, 2026 |
-| 5 | Synthetic Data Generation | Simulate suspicious AML patterns (structuring, rapid in/out, bots) | 3 | Feb 2, 2026 | Feb 22, 2026 |
-| 6 | Early Model Testing | Initial data validation & exploratory analysis | 1 | Feb 23, 2026 | Mar 1, 2026 |
-| 7 | Early Model Testing | Statistical anomaly detection & rule-based baselines | 2 | Mar 2, 2026 | Mar 15, 2026 |
-| 8 | Early Model Testing | Simple ML models (Isolation Forest, LOF) | 2 | Mar 16, 2026 | Mar 29, 2026 |
-| 9 | Behaviour Feature Engineering | Compute rhythm, volatility, session, money-flow features | 4 | Mar 30, 2026 | Apr 26, 2026 |
-| 10 | Behavioural Fingerprinting | Train behavior representation / clustering models | 4 | Apr 27, 2026 | May 24, 2026 |
-| 11 | Behavioural Fingerprinting | Behavior consistency & shift detection | 3 | May 25, 2026 | Jun 14, 2026 |
-| 12 | Anomaly Detection | Refined Isolation Forest & statistical models | 3 | Jun 15, 2026 | Jul 5, 2026 |
-| 13 | Anomaly Detection | Autoencoder / LSTM temporal anomaly models | 4 | Jul 6, 2026 | Aug 2, 2026 |
-| 14 | Risk Scoring | Combine rule-based AML logic + ML anomaly scores | 4 | Aug 3, 2026 | Aug 30, 2026 |
-| 15 | Risk Scoring | Validate risk scoring on synthetic AML scenarios | 3 | Aug 31, 2026 | Sep 20, 2026 |
-| 16 | Integration & Testing | End-to-end pipeline testing & refinement | 4 | Sep 21, 2026 | Oct 18, 2026 |
-| 17 | Documentation | Jupyter notebooks, methodology explanation | 3 | Oct 19, 2026 | Nov 8, 2026 |
-| 18 | Documentation | Final summary presentation | 1 | Nov 9, 2026 | Nov 15, 2026 |
 
 ## Current Status
 
