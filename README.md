@@ -13,9 +13,9 @@ This prototype covers:
 3. Risk scoring prototype - combine rule-based and ML approaches
 4. Synthetic data generation - realistic transaction datasets for training
 
-## Current Status (Up to Phase 03)
+## Current Status (Up to Phase 04)
 
-Phase 1-2 completed, Phase 3 completed through behavioral feature engineering.
+Phase 1-3 completed, and Phase 4 completed through behavioral fingerprinting, clustering, and drift detection.
 
 ### Phase 1: Research and Setup (Completed)
 
@@ -45,11 +45,26 @@ Phase 1-2 completed, Phase 3 completed through behavioral feature engineering.
 - Engineered behavior features for rhythm, volatility, session activity, and money flow
 - Saved final account-level feature table for modeling
 
+### Phase 4: Behavioral Fingerprinting and Drift Detection (Completed)
+
+- Built behavior representations from the account-level feature table in notebooks/04_behavioral_fingerprinting.ipynb
+- Compared multiple clustering approaches for behavioral fingerprints:
+  - PCA + KMeans
+  - Gaussian Mixture Models
+  - UMAP + HDBSCAN
+- Evaluated cluster quality with silhouette and Davies-Bouldin scores
+- Checked AML enrichment inside clusters using account-level labels
+- Ran a supervised probe on PCA embeddings to confirm the fingerprints carry strong fraud signal
+- Rebuilt monthly account fingerprints from transaction data for behavior consistency and shift detection
+- Measured population drift with PSI, JS divergence, and KS tests
+- Measured per-account embedding drift to flag accounts with sudden behavioral changes
+
 ## Key Notebooks
 
 - notebooks/01_data_generation.ipynb - synthetic transaction generation
 - notebooks/02_early_model_testing.ipynb - early inspection and model experiments
 - notebooks/03_behavior_feature_engineering.ipynb - feature engineering pipeline
+- notebooks/04_behavioral_fingerprinting.ipynb - clustering and drift detection for behavior fingerprints
 
 ## Outputs (Current)
 
@@ -58,6 +73,13 @@ Phase 1-2 completed, Phase 3 completed through behavioral feature engineering.
 - data/aml_nodes.csv - account node features
 - data/aml_behavior_features.csv - engineered account-level behavior features
 - data/feature_ablation_results.json - feature ablation results
+
+## Phase 4 Highlights
+
+- The behavior feature space was separable enough that PCA + KMeans produced clear clusters with strong AML enrichment.
+- The PCA probe classifier showed that the embeddings contain strong signal for separating suspicious from normal accounts.
+- Drift analysis showed that timing and activity features changed the most across windows, and a small set of accounts showed very large behavior jumps.
+- Together, these results indicate that behavioral fingerprints can be used both for grouping similar accounts and for spotting unusual changes over time.
 
 ## How to Re-Run Phase 03
 
@@ -71,6 +93,20 @@ source venv/bin/activate
 
 ```bash
 jupyter nbconvert --to notebook --execute notebooks/03_behavior_feature_engineering.ipynb --inplace
+```
+
+## How to Re-Run Phase 04
+
+1. Activate the project venv:
+
+```bash
+source venv/bin/activate
+```
+
+2. Run the behavioral fingerprinting notebook from repo root:
+
+```bash
+jupyter nbconvert --to notebook --execute notebooks/04_behavioral_fingerprinting.ipynb --inplace
 ```
 
 
