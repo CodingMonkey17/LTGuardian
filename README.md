@@ -13,9 +13,9 @@ This prototype covers:
 3. Risk scoring prototype - combine rule-based and ML approaches
 4. Synthetic data generation - realistic transaction datasets for training
 
-## Current Status (Up to Phase 04)
+## Current Status (Up to Phase 05)
 
-Phase 1-3 completed, and Phase 4 completed through behavioral fingerprinting, clustering, and drift detection.
+Phase 1-3 completed, Phase 4 completed through behavioral fingerprinting and drift detection, and Phase 5 completed through anomaly detection modeling and evaluation.
 
 ### Phase 1: Research and Setup (Completed)
 
@@ -59,12 +59,20 @@ Phase 1-3 completed, and Phase 4 completed through behavioral fingerprinting, cl
 - Measured population drift with PSI, JS divergence, and KS tests
 - Measured per-account embedding drift to flag accounts with sudden behavioral changes
 
+### Phase 5: Anomaly Detection (Completed)
+
+- Built anomaly detection experiments in notebooks/05_anomaly_detection.ipynb
+- Trained and compared multiple anomaly detection model configurations on engineered behavior features
+- Evaluated anomaly scoring behavior to separate suspicious and normal account patterns
+- Finalized Phase 5 notebook workflow for repeatable anomaly detection testing
+
 ## Key Notebooks
 
 - notebooks/01_data_generation.ipynb - synthetic transaction generation
 - notebooks/02_early_model_testing.ipynb - early inspection and model experiments
 - notebooks/03_behavior_feature_engineering.ipynb - feature engineering pipeline
 - notebooks/04_behavioral_fingerprinting.ipynb - clustering and drift detection for behavior fingerprints
+- notebooks/05_anomaly_detection.ipynb - anomaly detection modeling and evaluation
 
 ## Outputs (Current)
 
@@ -107,6 +115,20 @@ source venv/bin/activate
 
 ```bash
 jupyter nbconvert --to notebook --execute notebooks/04_behavioral_fingerprinting.ipynb --inplace
+```
+
+## How to Re-Run Phase 05
+
+1. Activate the project venv:
+
+```bash
+source venv/bin/activate
+```
+
+2. Run the anomaly detection notebook from repo root:
+
+```bash
+jupyter nbconvert --to notebook --execute notebooks/05_anomaly_detection.ipynb --inplace
 ```
 
 
