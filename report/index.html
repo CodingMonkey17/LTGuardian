@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LTGuardian AML Project Overview</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --bg-soft: #111d2f;
+        --panel: #14233c;
+        --panel-2: #1b2d4a;
+        --line: rgba(255,255,255,0.12);
+        --text: #eaf3ff;
+        --muted: #a8bddc;
+        --brand: #63d2ff;
+        --brand-2: #7ae7c7;
+        --warning: #ffc857;
+        --danger: #ff7b7b;
+        --success: #67e88a;
+        --shadow: rgba(12, 19, 31, 0.45);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #0b1220 0%, #0e1730 100%);
+        color: var(--text);
+      }
+
+      a { color: inherit; }
+
+      .container {
+        width: min(1200px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(8px);
+        background: rgba(11, 18, 32, 0.8);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .topbar-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+      }
+
+      .brand {
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
+
+      .nav {
+        display: flex;
+        gap: 20px;
+        font-size: 0.9rem;
+        color: var(--muted);
+        align-items: center;
+      }
+
+      .nav a {
+        text-decoration: none;
+      }
+
+      .phase-dropdown {
+        position: relative;
+      }
+
+      .phase-shortcut-mobile {
+        display: none;
+      }
+
+      .phase-dropdown-toggle {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--line);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .phase-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 230px;
+        background: linear-gradient(180deg, rgba(20,35,60,0.98), rgba(17,29,47,0.98));
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: 0 16px 34px var(--shadow);
+        padding: 8px;
+        display: none;
+        z-index: 20;
+      }
+
+      .phase-dropdown-menu a {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .phase-dropdown-menu a:hover {
+        background: rgba(99, 210, 255, 0.12);
+        color: var(--text);
+      }
+
+      .phase-dropdown:hover .phase-dropdown-menu,
+      .phase-dropdown:focus-within .phase-dropdown-menu {
+        display: block;
+      }
+
+      .hero {
+        padding: 80px 0 40px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(99, 210, 255, 0.12);
+        color: var(--brand);
+        border: 1px solid rgba(99, 210, 255, 0.4);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        font-size: clamp(2.3rem, 5vw, 4rem);
+        line-height: 1.05;
+        margin: 18px 0 18px;
+      }
+
+      .lead {
+        font-size: 1.08rem;
+        line-height: 1.7;
+        color: var(--muted);
+        max-width: 620px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 16px;
+        margin-top: 28px;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 14px 22px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 0.2s ease;
+      }
+
+      .button:hover { transform: translateY(-1px); }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--brand) 0%, #9dd8ff 100%);
+        color: #04111f;
+      }
+
+      .button.secondary {
+        border: 1px solid var(--line);
+        color: var(--text);
+        background: rgba(255,255,255,0.02);
+      }
+
+      .hero-panel {
+        background: linear-gradient(180deg, rgba(20,35,60,0.92), rgba(17,29,47,0.95));
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 22px;
+        box-shadow: 0 18px 40px var(--shadow);
+      }
+
+      .score-ring {
+        width: 170px;
+        height: 170px;
+        margin: 8px auto 18px;
+        position: relative;
+      }
+
+      .score-ring svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+
+      .score-ring circle {
+        fill: none;
+        stroke-width: 14;
+      }
+
+      .score-ring .track {
+        stroke: rgba(255,255,255,0.08);
+      }
+
+      .score-ring .value {
+        stroke: url(#ringGradient);
+        stroke-linecap: round;
+      }
+
+      .score-value {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text);
+      }
+
+      .hero-label {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin: 20px 0 60px;
+      }
+
+      .stat-card, .panel, .phase-card, .result-card {
+        background: linear-gradient(180deg, rgba(20,35,60,0.9), rgba(17,29,47,0.9));
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: 0 16px 34px var(--shadow);
+      }
+
+      .stat-card {
+        padding: 24px 18px;
+      }
+
+      .stat-card .num {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+        color: var(--brand);
+      }
+
+      .stat-card .label {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      section {
+        padding: 28px 0;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+      }
+
+      .section-note {
+        color: var(--muted);
+      }
+
+      .phase-detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+
+      .type-card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .type-card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px;
+      }
+
+      .type-title {
+        margin: 0 0 8px;
+        font-size: 0.88rem;
+      }
+
+      .type-desc {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
+
+      .icon-row {
+        display: flex;
+        gap: 8px;
+        align-items: end;
+        min-height: 30px;
+      }
+
+      .person-icon {
+        position: relative;
+        width: 14px;
+        height: 20px;
+      }
+
+      .person-icon::before,
+      .person-icon::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .person-icon::before {
+        top: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #b7d8ff;
+      }
+
+      .person-icon::after {
+        bottom: 0;
+        width: 10px;
+        height: 11px;
+        border-radius: 4px 4px 2px 2px;
+        background: #79baff;
+      }
+
+      .person-icon.normal::before { background: #d4eeff; }
+      .person-icon.normal::after { background: #63d2ff; }
+      .person-icon.suspicious::before { background: #ffd1d1; }
+      .person-icon.suspicious::after { background: #ff7b7b; }
+
+      .topology-figure {
+        margin-top: 18px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+      }
+
+      .topology-figure img {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.09);
+        display: block;
+      }
+
+      .topology-figure figcaption {
+        color: var(--muted);
+        margin-top: 10px;
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+
+      .method-steps {
+        margin-top: 12px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .method-step {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 10px;
+        align-items: start;
+      }
+
+      .method-badge {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(99, 210, 255, 0.14);
+        border: 1px solid rgba(99, 210, 255, 0.4);
+        color: var(--brand);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+
+      .method-text {
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 0.92rem;
+        margin-top: 2px;
+      }
+
+      .schema-chip-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .schema-chip {
+        padding: 7px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.03);
+        color: var(--muted);
+        font-size: 0.82rem;
+        letter-spacing: 0.02em;
+      }
+
+      .feature-intro {
+        margin-top: 4px;
+        margin-bottom: 16px;
+      }
+
+      .feature-intro p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 1rem;
+      }
+
+      .feature-category-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      .feature-category-card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+      }
+
+      .category-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .category-title {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .feature-count {
+        font-size: 0.8rem;
+        color: #072033;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        padding: 5px 9px;
+        border-radius: 999px;
+        font-weight: 700;
+      }
+
+      .feature-list {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 0.9rem;
+      }
+
+      .feature-map {
+        margin-top: 20px;
+      }
+
+      .feature-map-row {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 12px;
+        align-items: center;
+        margin: 10px 0;
+      }
+
+      .feature-map-label {
+        font-size: 0.88rem;
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .feature-chip-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .feature-chip {
+        font-size: 0.76rem;
+        color: var(--muted);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 6px 9px;
+        background: rgba(255,255,255,0.02);
+      }
+
+      .feature-chip.rhythm { border-color: rgba(99, 210, 255, 0.45); }
+      .feature-chip.volatility { border-color: rgba(255, 200, 87, 0.5); }
+      .feature-chip.session { border-color: rgba(122, 231, 199, 0.45); }
+      .feature-chip.flow { border-color: rgba(255, 123, 123, 0.45); }
+
+      .phase-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .phase-card {
+        padding: 22px 18px;
+      }
+
+      .phase-number {
+        display: inline-flex;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(122, 231, 199, 0.12);
+        border: 1px solid rgba(122, 231, 199, 0.3);
+        color: var(--brand-2);
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .phase-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.08rem;
+      }
+
+      .phase-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 0.92rem;
+      }
+
+      .story-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 22px;
+      }
+
+      .panel {
+        padding: 24px;
+      }
+
+      .panel h3 {
+        margin-top: 0;
+        font-size: 1.4rem;
+      }
+
+      .bullet-list {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .chart-wrap {
+        margin-top: 18px;
+        background: rgba(255,255,255,0.015);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+
+      .bar-group {
+        margin-top: 12px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 150px 1fr 48px;
+        gap: 12px;
+        align-items: center;
+        margin: 10px 0;
+        color: var(--muted);
+      }
+
+      .bar-track {
+        height: 16px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%);
+      }
+
+      .legend-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        margin-top: 14px;
+        font-size: 0.9rem;
+      }
+
+      .legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .result-card {
+        padding: 20px;
+      }
+
+      .result-card .tag {
+        display: inline-block;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--brand-2);
+        font-weight: 700;
+      }
+
+      .result-card h3 {
+        margin: 12px 0 8px;
+        font-size: 1.7rem;
+      }
+
+      .result-card p {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .pill {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 7px 10px;
+        background: rgba(103,232,138,0.1);
+        border: 1px solid rgba(103,232,138,0.25);
+        color: var(--success);
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .performance-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 22px;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+      }
+
+      .comparison-table th, .comparison-table td {
+        text-align: left;
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .comparison-table th {
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .comparison-table td {
+        color: var(--text);
+      }
+
+      .comparison-table .good {
+        color: var(--success);
+        font-weight: 700;
+      }
+
+      .callout {
+        background: linear-gradient(180deg, rgba(99,210,255,0.08), rgba(122,231,199,0.08));
+        border: 1px solid rgba(99,210,255,0.3);
+        border-radius: 16px;
+        padding: 18px 20px;
+        color: var(--text);
+        line-height: 1.7;
+      }
+
+      .footer {
+        padding: 28px 0 60px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid, .story-grid, .performance-grid, .phase-grid, .quick-stats, .phase-detail-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .phase-grid, .type-card-grid { grid-template-columns: 1fr 1fr; }
+        .feature-category-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 700px) {
+        .hero-grid, .story-grid, .performance-grid, .phase-grid, .quick-stats, .mini-grid, .phase-detail-grid, .type-card-grid {
+          grid-template-columns: 1fr;
+        }
+        .nav { display: none; }
+        .phase-shortcut-mobile { display: block; }
+        .section-head { display: block; }
+        .bar-row { grid-template-columns: 120px 1fr 40px; }
+        .feature-map-row { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand">LTGuardian AML</div>
+        <nav class="nav">
+          <a href="#overview">Overview</a>
+          <a href="#journey">Journey</a>
+          <div class="phase-dropdown">
+            <button class="phase-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">Phases ▾</button>
+            <div class="phase-dropdown-menu">
+              <a href="#phase1-data">Phase 1: Data Generation</a>
+              <a href="#phase2-data-design">Phase 2: Data Design</a>
+              <a href="#phase3-feature-engineering">Phase 3: Feature Engineering</a>
+              <a href="#phase4-behavioral-fingerprinting">Phase 4: Behavioral Fingerprinting</a>
+              <a href="#phase5-anomaly-detection">Phase 5: Anomaly Detection</a>
+            </div>
+          </div>
+          <a href="#findings">Findings</a>
+          <a href="#results">Results</a>
+        </nav>
+        <div class="phase-shortcut-mobile">
+          <div class="phase-dropdown">
+            <button class="phase-dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">Phases ▾</button>
+            <div class="phase-dropdown-menu">
+              <a href="#phase1-data">Phase 1: Data Generation</a>
+              <a href="#phase2-data-design">Phase 2: Data Design</a>
+              <a href="#phase3-feature-engineering">Phase 3: Feature Engineering</a>
+              <a href="#phase4-behavioral-fingerprinting">Phase 4: Behavioral Fingerprinting</a>
+              <a href="#phase5-anomaly-detection">Phase 5: Anomaly Detection</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero" id="overview">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">Project summary</span>
+            <h1>Behavior-based AML detection for risky account activity.</h1>
+            <p class="lead">
+              This project created a complete fraud-monitoring prototype that starts with synthetic transaction data,
+              transforms it into account behavior signals, and then detects suspicious activity using multiple anomaly models.
+              The goal was not only to find unusual accounts, but to understand what suspicious behavior looks like in a real AML context.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#results">See final results</a>
+              <a class="button secondary" href="#journey">Project journey</a>
+            </div>
+          </div>
+
+          <div class="hero-panel">
+            <div class="score-ring" aria-label="Combined risk score 96.6 percent">
+              <svg viewBox="0 0 120 120" role="img" aria-hidden="true">
+                <defs>
+                  <linearGradient id="ringGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+                    <stop offset="0%" stop-color="#63d2ff"/>
+                    <stop offset="100%" stop-color="#7ae7c7"/>
+                  </linearGradient>
+                </defs>
+                <circle class="track" cx="60" cy="60" r="48"></circle>
+                <circle class="value" cx="60" cy="60" r="48" stroke-dasharray="301.59" stroke-dashoffset="80.7"></circle>
+              </svg>
+              <div class="score-value">96.6%</div>
+            </div>
+            <div class="hero-label">Combined risk score performance</div>
+          </div>
+        </div>
+
+        <div class="quick-stats">
+          <div class="stat-card">
+            <div class="num">5</div>
+            <div class="label">project phases completed from research to detection</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">9</div>
+            <div class="label">behavior classes simulated, including 3 normal and 6 suspicious</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">0.966</div>
+            <div class="label">ROC-AUC from the final combined risk model</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">4</div>
+            <div class="label">key drift patterns identified, led by timing and transaction volume</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="story-grid">
+          <div class="panel">
+            <h3>What the project actually did</h3>
+            <ul class="bullet-list">
+              <li>Generated realistic transaction-level data for online gaming and payment activity.</li>
+              <li>Created a structured account view that summarizes each account’s behavioral behavior.</li>
+              <li>Built features such as transaction timing, session rhythm, amount volatility, incoming/outgoing flows, and activity volume.</li>
+              <li>Grouped accounts into behavioral fingerprints to see whether suspicious users cluster together.</li>
+              <li>Measured whether user behavior shifted over time and flagged accounts with sudden changes.</li>
+              <li>Combined several anomaly detectors into a final risk score to improve detection quality.</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h3>Why this matters</h3>
+            <p class="lead" style="font-size: 1rem; margin-top: 0;">
+              In AML work, the biggest risks usually do not look like one single bad transaction. They look like a pattern:
+              unusual timing, abnormal account activity, suspicious flow patterns, or a sudden shift in behavior.
+            </p>
+            <div class="callout">
+              The project focuses on behavioral risk rather than only transaction flags. That is important because suspicious activity often becomes visible in the way an account behaves over time, not just through a single payment.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="journey">
+        <div class="section-head">
+          <h2>Project journey</h2>
+          <div class="section-note">From idea to detection</div>
+        </div>
+
+        <div class="phase-grid">
+          <div class="phase-card">
+            <div class="phase-number">1</div>
+            <h3>Data generation</h3>
+            <p>Created synthetic records for normal players and suspicious laundering patterns to train and evaluate the pipeline.</p>
+          </div>
+          <div class="phase-card">
+            <div class="phase-number">2</div>
+            <h3>Data design</h3>
+            <p>Defined the transaction schema and account categories for a realistic online gaming and payment environment.</p>
+          </div>
+          <div class="phase-card">
+            <div class="phase-number">3</div>
+            <h3>Feature engineering</h3>
+            <p>Converted raw transactions into account-level behavioral signals covering timing, volatility, sessions, and money flow.</p>
+          </div>
+          <div class="phase-card">
+            <div class="phase-number">4</div>
+            <h3>Behavioral fingerprinting</h3>
+            <p>Clustered engineered features to reveal account behavior archetypes and separate suspicious usage patterns.</p>
+          </div>
+          <div class="phase-card">
+            <div class="phase-number">5</div>
+            <h3>Anomaly detection</h3>
+            <p>Tested multiple detection methods to identify suspicious accounts and quantify changes over time.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="phase1-data">
+        <div class="section-head">
+          <h2>Phase 1 detail: data generation</h2>
+          <div class="section-note">Simulation methodology and synthetic pattern design</div>
+        </div>
+
+        <div class="phase-detail-grid">
+          <div class="panel">
+            <h3>How the simulation was built</h3>
+            <ul class="bullet-list">
+              <li>Built transaction behavior using simulation functions for deposits, betting, withdrawals, and account-to-account transfers.</li>
+              <li>Created two groups of synthetic users: normal profiles and suspicious AML red-flag profiles.</li>
+              <li>Included realistic context fields: bank routing, currencies, payment format, session timeline, device, and location.</li>
+              <li>Simulated both individual behavior and coordinated graph topologies to mirror known laundering structures in prior AML research.</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h3>Normal player profiles (A-C)</h3>
+            <div class="type-card-grid">
+              <div class="type-card">
+                <p class="type-title">Type A: Casual low bettor</p>
+                <div class="icon-row"><span class="person-icon normal"></span></div>
+                <p class="type-desc">Small bets, slow rhythm, steady gameplay.</p>
+              </div>
+              <div class="type-card">
+                <p class="type-title">Type B: Medium stable bettor</p>
+                <div class="icon-row"><span class="person-icon normal"></span><span class="person-icon normal"></span></div>
+                <p class="type-desc">Consistent bet ranges and longer sessions.</p>
+              </div>
+              <div class="type-card">
+                <p class="type-title">Type C: Hot/cold player</p>
+                <div class="icon-row"><span class="person-icon normal"></span><span class="person-icon normal"></span><span class="person-icon normal"></span></div>
+                <p class="type-desc">Variance swings and occasional loss-chasing.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top: 22px;">
+          <h3>Suspicious player simulations</h3>
+          <div class="type-card-grid">
+            <div class="type-card">
+              <p class="type-title">Structuring</p>
+              <div class="icon-row"><span class="person-icon suspicious"></span></div>
+              <p class="type-desc">Many small deposits near threshold levels.</p>
+            </div>
+            <div class="type-card">
+              <p class="type-title">Rapid in/out</p>
+              <div class="icon-row"><span class="person-icon suspicious"></span></div>
+              <p class="type-desc">Quick deposits and fast withdrawals with minimal play.</p>
+            </div>
+            <div class="type-card">
+              <p class="type-title">Volatility spike</p>
+              <div class="icon-row"><span class="person-icon suspicious"></span></div>
+              <p class="type-desc">Sudden high-value bet spikes after baseline play.</p>
+            </div>
+            <div class="type-card">
+              <p class="type-title">Coordinated accounts</p>
+              <div class="icon-row"><span class="person-icon suspicious"></span></div>
+              <p class="type-desc">Shared behavior across linked accounts and devices.</p>
+            </div>
+            <div class="type-card">
+              <p class="type-title">Bot-like behavior</p>
+              <div class="icon-row"><span class="person-icon suspicious"></span></div>
+              <p class="type-desc">Highly regular and machine-like action intervals.</p>
+            </div>
+            <div class="type-card">
+              <p class="type-title">Crypto abuse pattern</p>
+              <div class="icon-row"><span class="person-icon suspicious"></span></div>
+              <p class="type-desc">Anonymous-style funding and laundering-through-loss behavior.</p>
+            </div>
+          </div>
+        </div>
+
+        <figure class="topology-figure">
+          <img src="assets/topology_graphs.png" alt="Graph cluster visual for suspicious AML topology patterns" />
+          <figcaption>
+            Graph clusters of suspicious patterns generated from AML topology research: fan-out, fan-in, scatter-gather,
+            gather-scatter, cycle, bipartite, and stack transfer structures.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="phase2-data-design">
+        <div class="section-head">
+          <h2>Phase 2 detail: data design</h2>
+          <div class="section-note">How the schema and account taxonomy were designed</div>
+        </div>
+
+        <div class="phase-detail-grid">
+          <div class="panel">
+            <h3>Methodology</h3>
+            <div class="method-steps">
+              <div class="method-step">
+                <span class="method-badge">1</span>
+                <div class="method-text">Defined business entities first: player, session, transaction, and account-to-account transfer relationships.</div>
+              </div>
+              <div class="method-step">
+                <span class="method-badge">2</span>
+                <div class="method-text">Mapped each entity to AML-relevant fields so every generated record carries monitoring context, not just amounts.</div>
+              </div>
+              <div class="method-step">
+                <span class="method-badge">3</span>
+                <div class="method-text">Designed labels and risk classes up front to support both unsupervised behavior analysis and supervised evaluation later.</div>
+              </div>
+              <div class="method-step">
+                <span class="method-badge">4</span>
+                <div class="method-text">Kept routing and currency fields compatible with financial transaction standards to make outputs reusable for downstream modeling.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Schema layers included</h3>
+            <div class="type-card-grid">
+              <div class="type-card">
+                <p class="type-title">Transaction layer</p>
+                <p class="type-desc">Transaction id, timestamp, paid/received amounts, payment format, and action type.</p>
+              </div>
+              <div class="type-card">
+                <p class="type-title">Routing layer</p>
+                <p class="type-desc">from_account/to_account and from_bank/to_bank for money-flow path analysis.</p>
+              </div>
+              <div class="type-card">
+                <p class="type-title">Behavior layer</p>
+                <p class="type-desc">Session, timing gaps, device, location, and gameplay context to capture behavior signals.</p>
+              </div>
+              <div class="type-card">
+                <p class="type-title">Topology layer</p>
+                <p class="type-desc">Graph pattern tagging to represent known suspicious transfer structures from AML research.</p>
+              </div>
+              <div class="type-card">
+                <p class="type-title">Risk label layer</p>
+                <p class="type-desc">money_launderer, player_label, and is_suspicious for evaluation and explainability.</p>
+              </div>
+              <div class="type-card">
+                <p class="type-title">Feature-ready layer</p>
+                <p class="type-desc">Data organized to be transformed into account-level behavior features in later phases.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top: 22px;">
+          <h3>Player and risk taxonomy design</h3>
+          <div class="schema-chip-row">
+            <span class="schema-chip">Normal A: casual low bettor</span>
+            <span class="schema-chip">Normal B: medium stable bettor</span>
+            <span class="schema-chip">Normal C: hot/cold variance</span>
+            <span class="schema-chip">Suspicious: structuring</span>
+            <span class="schema-chip">Suspicious: rapid in/out</span>
+            <span class="schema-chip">Suspicious: volatility spike</span>
+            <span class="schema-chip">Suspicious: coordinated accounts</span>
+            <span class="schema-chip">Suspicious: bot-like behavior</span>
+            <span class="schema-chip">Suspicious: crypto abuse pattern</span>
+          </div>
+          <p class="lead" style="font-size: 1rem; margin-top: 16px; color: var(--muted); max-width: none;">
+            This taxonomy was intentionally designed to cover both routine gaming behavior and high-risk AML scenarios, so later model phases can learn separation patterns and operationally meaningful risk scores.
+          </p>
+        </div>
+      </section>
+
+      <section id="phase3-feature-engineering">
+        <div class="section-head">
+          <h2>Phase 3 detail: feature engineering</h2>
+          <div class="section-note">Account-level behavioral feature construction from transaction histories</div>
+        </div>
+
+        <div class="panel feature-intro">
+          <p>
+            Phase 3 transformed transaction logs into one account-level feature table used by all downstream modeling.
+            The output dataset contains 33 columns per account (ID + 31 behavior features + 1 AML label), with features grouped into four behavior families.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>Feature families (clear category view)</h3>
+          <div class="feature-category-grid">
+            <div class="feature-category-card">
+              <div class="category-top">
+                <h4 class="category-title">Rhythm features</h4>
+                <span class="feature-count">7 features</span>
+              </div>
+              <ul class="feature-list">
+                <li>Total account event count and active day count</li>
+                <li>Average time gap between events and gap variability</li>
+                <li>Night-time activity share and weekend activity share</li>
+                <li>Behavior burstiness index</li>
+              </ul>
+            </div>
+
+            <div class="feature-category-card">
+              <div class="category-top">
+                <h4 class="category-title">Volatility features</h4>
+                <span class="feature-count">9 features</span>
+              </div>
+              <ul class="feature-list">
+                <li>Average, median, and standard deviation of transaction amount</li>
+                <li>Maximum amount and upper/lower amount percentiles</li>
+                <li>Amount consistency ratio</li>
+                <li>Percentile spread and max-to-median amount ratio</li>
+              </ul>
+            </div>
+
+            <div class="feature-category-card">
+              <div class="category-top">
+                <h4 class="category-title">Session features</h4>
+                <span class="feature-count">5 features</span>
+              </div>
+              <ul class="feature-list">
+                <li>Number of distinct sessions</li>
+                <li>Average session duration</li>
+                <li>Typical and peak events per session</li>
+                <li>Average counterparties per session</li>
+              </ul>
+            </div>
+
+            <div class="feature-category-card">
+              <div class="category-top">
+                <h4 class="category-title">Money-flow features</h4>
+                <span class="feature-count">10 features</span>
+              </div>
+              <ul class="feature-list">
+                <li>Total incoming and outgoing value with event counts</li>
+                <li>Distinct incoming and outgoing counterparties</li>
+                <li>Net money flow and outflow-to-inflow ratio</li>
+                <li>Outgoing activity share and transfer behavior share</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="feature-map">
+            <div class="feature-map-row">
+              <div class="feature-map-label">Rhythm</div>
+              <div class="feature-chip-strip">
+                <span class="feature-chip rhythm">timing gaps</span>
+                <span class="feature-chip rhythm">day/night pattern</span>
+                <span class="feature-chip rhythm">weekend behavior</span>
+              </div>
+            </div>
+            <div class="feature-map-row">
+              <div class="feature-map-label">Volatility</div>
+              <div class="feature-chip-strip">
+                <span class="feature-chip volatility">amount dispersion</span>
+                <span class="feature-chip volatility">tail-risk quantiles</span>
+                <span class="feature-chip volatility">extreme-to-median ratio</span>
+              </div>
+            </div>
+            <div class="feature-map-row">
+              <div class="feature-map-label">Session</div>
+              <div class="feature-chip-strip">
+                <span class="feature-chip session">session concentration</span>
+                <span class="feature-chip session">session burst size</span>
+                <span class="feature-chip session">counterparty spread</span>
+              </div>
+            </div>
+            <div class="feature-map-row">
+              <div class="feature-map-label">Money flow</div>
+              <div class="feature-chip-strip">
+                <span class="feature-chip flow">in vs out imbalance</span>
+                <span class="feature-chip flow">directional dominance</span>
+                <span class="feature-chip flow">transfer-heavy behavior</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="phase4-behavioral-fingerprinting">
+        <div class="section-head">
+          <h2>Phase 4 detail: behavioral fingerprinting</h2>
+          <div class="section-note">Turning account behavior into readable patterns and risk clusters</div>
+        </div>
+
+        <div class="panel">
+          <h3>How the fingerprinting worked</h3>
+          <p class="lead" style="font-size: 1rem; margin-top: 0; color: var(--muted); max-width: none;">
+            After the feature engineering step, each account was described by a set of behavioral signals such as activity rhythm, amount volatility, session patterns, and money-flow behavior.
+            Instead of looking at one transaction at a time, the model grouped each account using its overall behavior profile, so it could see whether an account behaved more like a normal user or like a suspicious pattern.
+          </p>
+          <div class="method-steps">
+            <div class="method-step">
+              <span class="method-badge">1</span>
+              <div class="method-text">Each account was summarized using the built features, such as how regularly it transacts, how much it moves, and how concentrated its sessions are.</div>
+            </div>
+            <div class="method-step">
+              <span class="method-badge">2</span>
+              <div class="method-text">A dimension-reduction step simplified the full feature set into a smaller view, making the underlying patterns easier to compare.</div>
+            </div>
+            <div class="method-step">
+              <span class="method-badge">3</span>
+              <div class="method-text">A clustering method then grouped similar accounts together, which made it possible to spot unusual clusters and separate suspicious behavior classes from normal behavior.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top: 22px;">
+          <h3>Clustering models tested</h3>
+          <div class="phase-detail-grid">
+            <div class="panel">
+              <h4>Best performer: K-means clustering</h4>
+              <ul class="bullet-list">
+                <li>Used after reducing the behavior space into a simpler view with PCA.</li>
+                <li>Produced the clearest separation between normal accounts and suspicious groups.</li>
+                <li>Best result came with 7 clusters and a silhouette score of about 0.46, which indicates a strong balance between separation and compactness.</li>
+                <li>Several clusters were heavily enriched with suspicious accounts, while the normal patterns stayed grouped separately.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h4>Other models compared</h4>
+              <ul class="bullet-list">
+                <li>Gaussian Mixture Model: a softer clustering approach that handled overlap more gently, but it produced weaker separation than K-means.</li>
+                <li>UMAP + HDBSCAN: a nonlinear approach that found dense groups and flagged outliers; it was useful for identifying unusual edge cases and noisy accounts.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top: 22px;">
+          <h3>What the PCA cluster plot is showing</h3>
+          <p class="lead" style="font-size: 1rem; margin-top: 0; color: var(--muted); max-width: none;">
+            This plot is a simplified map of account behavior. Each point is one account, and accounts with similar transaction habits appear closer together. The clustering algorithm is able to group together accounts that behave in similar ways, which helps show where normal activity sits and where suspicious patterns stand out.
+          </p>
+          <p class="lead" style="font-size: 1rem; margin-top: 0; color: var(--muted); max-width: none;">
+            In practical terms, the algorithm is separating different suspicious behaviors by their pattern, such as accounts with highly irregular timing, unusual money movement, or very bursty activity. That makes it easier to distinguish one behavior archetype from another without looking at raw transaction logs line by line.
+          </p>
+          <figure class="topology-figure" style="margin-top: 16px;">
+            <img src="../data/04_pca_graph.png" alt="PCA scatter plot showing behavioral clusters and suspicious account groupings" />
+            <figcaption>
+              PCA + KMeans plot of account behavior. Similar accounts are placed near each other, while distinct suspicious behavior groups appear as separate clusters. This helps show that different risky behaviors can be recognized from their patterns, not just from single transactions.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="panel" style="margin-top: 22px;">
+          <h3>Task 2: shift detection and behavior change over time</h3>
+          <p class="lead" style="font-size: 1rem; margin-top: 0; color: var(--muted); max-width: none;">
+            The second part of this phase looked at whether an account’s behavior stayed consistent over time or changed meaningfully from one month to the next. This is important because suspicious activity often does not appear as one big event; it can emerge as a gradual or sudden shift in normal behavior.
+          </p>
+          <div class="method-steps">
+            <div class="method-step">
+              <span class="method-badge">A</span>
+              <div class="method-text">Monthly fingerprints were built for each account so we could compare behavior across time windows instead of only looking at a single snapshot.</div>
+            </div>
+            <div class="method-step">
+              <span class="method-badge">B</span>
+              <div class="method-text">We compared early and late periods to see where the distribution of activity changed, especially in timing, transaction volume, and money flow.</div>
+            </div>
+            <div class="method-step">
+              <span class="method-badge">C</span>
+              <div class="method-text">Accounts with large changes in their pattern were treated as higher-priority review candidates, because sudden shifts can indicate a change in tactics or a suspicious account becoming more active.</div>
+            </div>
+          </div>
+          <p class="lead" style="font-size: 1rem; margin-top: 16px; color: var(--muted); max-width: none;">
+            The strongest shift signals were in average timing gap, total activity volume, timing variability, and outgoing activity volume. This means the clearest changes over time were in how often accounts acted and how irregular their activity became.
+          </p>
+        </div>
+      </section>
+
+      <section id="findings">
+        <div class="section-head">
+          <h2>Key findings</h2>
+          <div class="section-note">Clear signals were found in the data</div>
+        </div>
+
+        <div class="performance-grid">
+          <div class="panel">
+            <h3>Behavioral separation was strong</h3>
+            <div class="chart-wrap">
+              <div class="bar-group">
+                <div class="bar-row">
+                  <span>KMeans</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 78%;"></div></div>
+                  <strong>0.46</strong>
+                </div>
+                <div class="bar-row">
+                  <span>GMM</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 52%;"></div></div>
+                  <strong>0.33</strong>
+                </div>
+              </div>
+              <div class="legend-box"><span class="legend-dot"></span> Silhouette score: higher means clearer separation between behavior groups</div>
+            </div>
+            <p class="lead" style="font-size: 1rem; margin-top: 18px; color: var(--muted);">
+              The PCA + KMeans approach created the clearest behavioral clusters, suggesting suspicious activity was clustered into recognizable patterns rather than being random noise.
+            </p>
+          </div>
+
+          <div class="panel">
+            <h3>Drift was concentrated in timing and volume</h3>
+            <div class="chart-wrap">
+              <div class="bar-group">
+                <div class="bar-row">
+                  <span>Average timing gap</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 98%;"></div></div>
+                  <strong>4.39</strong>
+                </div>
+                <div class="bar-row">
+                  <span>Total activity volume</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 92%;"></div></div>
+                  <strong>4.05</strong>
+                </div>
+                <div class="bar-row">
+                  <span>Timing variability</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 69%;"></div></div>
+                  <strong>3.04</strong>
+                </div>
+                <div class="bar-row">
+                  <span>Outgoing activity volume</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 46%;"></div></div>
+                  <strong>2.01</strong>
+                </div>
+              </div>
+              <div class="legend-box"><span class="legend-dot"></span> PSI values: larger values indicate stronger behavior shifts over time</div>
+            </div>
+            <p class="lead" style="font-size: 1rem; margin-top: 18px; color: var(--muted);">
+              The strongest distribution changes were in how often transactions occurred and how irregular the timing became. This is a strong signal that accounts changed behavior over time.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="phase5-anomaly-detection">
+        <div id="results"></div>
+        <div class="section-head">
+          <h2>Phase 5 detail: anomaly detection</h2>
+          <div class="section-note">Model development, comparison, and final risk interpretation</div>
+        </div>
+
+        <div class="panel">
+          <h3>What this phase did</h3>
+          <p class="lead" style="font-size: 1rem; margin-top: 0; color: var(--muted); max-width: none;">
+            Phase 5 focused on turning behavioral patterns into practical detection scores. The work was split into two model-development tasks: one for broad anomaly detectors and one for neural-network reconstruction models.
+            The objective was to identify which methods best separate suspicious accounts from normal accounts in a way that is reliable for business monitoring.
+          </p>
+        </div>
+
+        <div class="phase-detail-grid" style="margin-top: 22px;">
+          <div class="panel">
+            <h3>Task 1: anomaly model comparison</h3>
+            <ul class="bullet-list">
+              <li>Tested multiple detectors that each look for unusual behavior in a different way.</li>
+              <li>Included Isolation Forest, Local Outlier Factor, Elliptic Envelope, One-Class SVM, statistical outlier scoring, and Mahalanobis distance.</li>
+              <li>Compared outputs using quality metrics that measure separation and precision of suspicious-account ranking.</li>
+              <li>Built an ensemble score to combine strengths from multiple models.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Task 2: reconstruction-based detection</h3>
+            <ul class="bullet-list">
+              <li>Built a dense autoencoder to learn normal account behavior and flag accounts with high reconstruction error.</li>
+              <li>Built an LSTM autoencoder to learn sequence behavior over time for accounts with enough transaction history.</li>
+              <li>Combined these outputs with Task 1 scores into a unified risk score.</li>
+              <li>Reported numeric outcomes directly for this task because no plot is used here.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top: 22px;">
+          <h3>Task 1 visual: model performance comparison</h3>
+          <p class="lead" style="font-size: 1rem; margin-top: 0; color: var(--muted); max-width: none;">
+            This chart compares how well each Task 1 model separates suspicious accounts from normal accounts. Higher scores indicate better practical detection quality.
+          </p>
+          <figure class="topology-figure" style="margin-top: 16px;">
+            <img src="../data/05_models_performance.png" alt="Model performance comparison for anomaly detection methods" />
+            <figcaption>
+              Task 1 model comparison. Local Outlier Factor was the strongest single model, while the combined approach delivered the best overall balance for business risk ranking.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="panel" style="margin-top: 22px;">
+          <h3>Task 2 numeric results (no plot)</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>ROC-AUC</th>
+                <th>PR-AUC</th>
+                <th>Business interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dense Autoencoder</td>
+                <td>0.903</td>
+                <td>0.938</td>
+                <td>Strong detection from behavior reconstruction, useful as a robust secondary signal.</td>
+              </tr>
+              <tr>
+                <td>LSTM Autoencoder</td>
+                <td>0.625</td>
+                <td>0.350</td>
+                <td>Weaker in this run due to limited sequence coverage, but still informative for temporal edge cases.</td>
+              </tr>
+              <tr>
+                <td>Combined risk score</td>
+                <td class="good">0.966</td>
+                <td class="good">0.982</td>
+                <td>Best final signal for prioritizing investigations with high confidence.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="lead" style="font-size: 0.96rem; margin-top: 14px; color: var(--muted); max-width: none;">
+            <strong>Note on Combined Risk Score:</strong> In this implementation, the combined risk score is a consensus average of the core Task 1 detector scores (Isolation Forest, Local Outlier Factor, One-Class SVM, statistical outlier score, and Mahalanobis distance), with the LSTM autoencoder score included when sequence data is available for that account. Higher values indicate higher AML risk priority.
+          </p>
+        </div>
+
+        <div class="mini-grid" style="margin-top: 22px;">
+          <div class="result-card">
+            <div class="tag">Best single model</div>
+            <h3>Local Outlier Factor</h3>
+            <p>Top single-model separation in Task 1, indicating strong ability to catch unusual local behavior patterns.</p>
+          </div>
+          <div class="result-card">
+            <div class="tag">Best overall signal</div>
+            <h3>Combined risk score</h3>
+            <p>The blended score performed best overall and is the most business-ready option for account triage.</p>
+          </div>
+          <div class="result-card">
+            <div class="tag">What this means</div>
+            <h3>Better prioritization</h3>
+            <p>Investigators can focus first on top-ranked accounts, where true suspicious cases are most concentrated.</p>
+          </div>
+          <div class="result-card">
+            <div class="tag">Operational takeaway</div>
+            <h3>High practical value</h3>
+            <p>Detection quality is strong enough to support risk monitoring and faster review decisions in operations.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="panel">
+          <h3>Executive summary</h3>
+          <p class="lead" style="font-size: 1.04rem; margin-top: 0;">
+            This project proved that suspicious AML patterns can be modeled from account behavior, not just from transaction amounts or single flags.
+            Behavioral timing, transaction rhythm, and account flow changed in ways that differentiated risky activity from normal usage.
+            The final model produced highly credible risk scores and offered a practical pathway for monitoring unusual accounts in a real operational setting.
+          </p>
+          <div class="callout">
+            <strong>Bottom line:</strong> the project demonstrates that a business-facing AML model can detect suspicious behavior early, understand how behavior changes over time, and flag the accounts most worth investigating.
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="panel">
+          <h3>Simple glossary</h3>
+          <ul class="bullet-list">
+            <li><strong>AUC:</strong> a measure of how well the model separates suspicious activity from normal activity. Higher is better.</li>
+            <li><strong>Drift:</strong> a change in behavior over time, such as accounts suddenly becoming much more active or less regular.</li>
+            <li><strong>Behavior fingerprint:</strong> the summary of how an account typically behaves, used to compare it with other accounts.</li>
+            <li><strong>Anomaly score:</strong> a number showing how unusual an account looks relative to normal patterns.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      LTGuardian AML project overview • Research, feature engineering, behavior analysis, and anomaly detection
+    </footer>
+    <script>
+      const phaseDropdowns = document.querySelectorAll('.phase-dropdown');
+
+      phaseDropdowns.forEach((dropdown) => {
+        const button = dropdown.querySelector('.phase-dropdown-toggle');
+        const menu = dropdown.querySelector('.phase-dropdown-menu');
+
+        if (!button || !menu) return;
+
+        button.addEventListener('click', (event) => {
+          event.stopPropagation();
+          const isOpen = menu.style.display === 'block';
+
+          phaseDropdowns.forEach((otherDropdown) => {
+            const otherButton = otherDropdown.querySelector('.phase-dropdown-toggle');
+            const otherMenu = otherDropdown.querySelector('.phase-dropdown-menu');
+            if (otherButton && otherMenu) {
+              otherMenu.style.display = 'none';
+              otherButton.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          if (!isOpen) {
+            menu.style.display = 'block';
+            button.setAttribute('aria-expanded', 'true');
+          }
+        });
+
+        menu.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            menu.style.display = 'none';
+            button.setAttribute('aria-expanded', 'false');
+          });
+        });
+      });
+
+      document.addEventListener('click', () => {
+        phaseDropdowns.forEach((dropdown) => {
+          const button = dropdown.querySelector('.phase-dropdown-toggle');
+          const menu = dropdown.querySelector('.phase-dropdown-menu');
+          if (button && menu) {
+            menu.style.display = 'none';
+            button.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
