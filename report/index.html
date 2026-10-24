@@ -6,18 +6,19 @@
     <title>LTGuardian AML Project Overview</title>
     <style>
       :root {
-        --bg: #0b1220;
-        --bg-soft: #111d2f;
-        --panel: #14233c;
-        --panel-2: #1b2d4a;
+        --bg: #0a101a;
+        --bg-soft: #121a27;
+        --panel: #182233;
+        --panel-2: #202c40;
         --line: rgba(255,255,255,0.12);
         --text: #eaf3ff;
-        --muted: #a8bddc;
-        --brand: #63d2ff;
-        --brand-2: #7ae7c7;
+        --muted: #afbdd2;
+        --brand: #5fc8ff;
+        --brand-2: #66d7b4;
         --warning: #ffc857;
         --danger: #ff7b7b;
         --success: #67e88a;
+        --ink: #06101d;
         --shadow: rgba(12, 19, 31, 0.45);
       }
 
@@ -27,8 +28,8 @@
 
       body {
         margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(180deg, #0b1220 0%, #0e1730 100%);
+        font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+        background: var(--bg);
         color: var(--text);
       }
 
@@ -98,7 +99,7 @@
         top: calc(100% + 8px);
         right: 0;
         min-width: 230px;
-        background: linear-gradient(180deg, rgba(20,35,60,0.98), rgba(17,29,47,0.98));
+        background: rgba(18, 26, 39, 0.98);
         border: 1px solid var(--line);
         border-radius: 12px;
         box-shadow: 0 16px 34px var(--shadow);
@@ -182,8 +183,8 @@
       .button:hover { transform: translateY(-1px); }
 
       .button.primary {
-        background: linear-gradient(135deg, var(--brand) 0%, #9dd8ff 100%);
-        color: #04111f;
+        background: var(--brand);
+        color: var(--ink);
       }
 
       .button.secondary {
@@ -193,7 +194,7 @@
       }
 
       .hero-panel {
-        background: linear-gradient(180deg, rgba(20,35,60,0.92), rgba(17,29,47,0.95));
+        background: rgba(24, 34, 51, 0.92);
         border: 1px solid var(--line);
         border-radius: 20px;
         padding: 22px;
@@ -223,7 +224,7 @@
       }
 
       .score-ring .value {
-        stroke: url(#ringGradient);
+        stroke: var(--brand);
         stroke-linecap: round;
       }
 
@@ -251,10 +252,26 @@
       }
 
       .stat-card, .panel, .phase-card, .result-card {
-        background: linear-gradient(180deg, rgba(20,35,60,0.9), rgba(17,29,47,0.9));
+        background: rgba(24, 34, 51, 0.9);
         border: 1px solid var(--line);
         border-radius: 18px;
         box-shadow: 0 16px 34px var(--shadow);
+      }
+
+      .stat-card {
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(95, 200, 255, 0.45);
+      }
+
+      .stat-card-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
       }
 
       .stat-card {
@@ -482,8 +499,8 @@
 
       .feature-count {
         font-size: 0.8rem;
-        color: #072033;
-        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        color: var(--ink);
+        background: var(--brand);
         padding: 5px 9px;
         border-radius: 999px;
         font-weight: 700;
@@ -624,7 +641,7 @@
       .bar-fill {
         height: 100%;
         border-radius: 999px;
-        background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%);
+        background: var(--brand);
       }
 
       .legend-box {
@@ -640,7 +657,7 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        background: var(--brand);
       }
 
       .mini-grid {
@@ -721,12 +738,225 @@
       }
 
       .callout {
-        background: linear-gradient(180deg, rgba(99,210,255,0.08), rgba(122,231,199,0.08));
+        background: rgba(95, 200, 255, 0.08);
         border: 1px solid rgba(99,210,255,0.3);
         border-radius: 16px;
         padding: 18px 20px;
         color: var(--text);
         line-height: 1.7;
+      }
+
+      .summary-strip {
+        margin-top: 22px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.02);
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .summary-metric {
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px;
+        padding: 12px;
+        background: rgba(0,0,0,0.15);
+      }
+
+      .summary-metric .kpi {
+        font-size: 1.45rem;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+
+      .summary-metric .kpi-note {
+        color: var(--muted);
+        font-size: 0.88rem;
+        line-height: 1.45;
+      }
+
+      .metric-help {
+        margin-top: 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 8px 10px;
+        background: rgba(255,255,255,0.02);
+      }
+
+      .metric-help summary {
+        cursor: pointer;
+        color: var(--brand);
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      .metric-help p {
+        color: var(--muted);
+        margin: 10px 0 2px;
+        font-size: 0.88rem;
+        line-height: 1.5;
+      }
+
+      .workflow-steps {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .workflow-step {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        text-align: left;
+        padding: 12px;
+        cursor: pointer;
+        min-height: 100px;
+      }
+
+      .workflow-step:hover,
+      .workflow-step:focus-visible {
+        border-color: rgba(95, 200, 255, 0.45);
+        outline: none;
+      }
+
+      .workflow-step.is-active {
+        border-color: rgba(95, 200, 255, 0.75);
+        background: rgba(95, 200, 255, 0.09);
+      }
+
+      .workflow-step .step-num {
+        display: inline-flex;
+        width: 24px;
+        height: 24px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.08);
+        font-weight: 800;
+        font-size: 0.75rem;
+      }
+
+      .workflow-step .step-name {
+        margin: 8px 0 0;
+        font-size: 0.85rem;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .workflow-detail {
+        margin-top: 14px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        background: rgba(255,255,255,0.02);
+      }
+
+      .workflow-detail h4 {
+        margin: 0 0 8px;
+      }
+
+      .workflow-detail p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .phase-flow {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .phase-flow-step {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        text-align: left;
+        padding: 12px;
+        cursor: pointer;
+        min-height: 92px;
+      }
+
+      .phase-flow-step:hover,
+      .phase-flow-step:focus-visible {
+        border-color: rgba(95, 200, 255, 0.45);
+        outline: none;
+      }
+
+      .phase-flow-step.is-active {
+        border-color: rgba(95, 200, 255, 0.75);
+        background: rgba(95, 200, 255, 0.09);
+      }
+
+      .phase-flow-step .step-num {
+        display: inline-flex;
+        width: 24px;
+        height: 24px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.08);
+        font-weight: 800;
+        font-size: 0.75rem;
+      }
+
+      .phase-flow-step .step-name {
+        margin: 8px 0 0;
+        font-size: 0.85rem;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .phase-flow-detail {
+        margin-top: 14px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        background: rgba(255,255,255,0.02);
+      }
+
+      .phase-flow-detail h4 {
+        margin: 0 0 8px;
+      }
+
+      .phase-flow-detail p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .nav a.is-active {
+        color: var(--text);
+        font-weight: 700;
+        border-bottom: 2px solid var(--brand);
+        padding-bottom: 4px;
+      }
+
+      .back-to-top {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 40;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(18, 26, 39, 0.95);
+        color: var(--text);
+        font-weight: 700;
+        padding: 10px 12px;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .back-to-top.is-visible {
+        opacity: 1;
+        pointer-events: auto;
       }
 
       .footer {
@@ -745,6 +975,15 @@
 
       @media (max-width: 700px) {
         .hero-grid, .story-grid, .performance-grid, .phase-grid, .quick-stats, .mini-grid, .phase-detail-grid, .type-card-grid {
+          grid-template-columns: 1fr;
+        }
+        .summary-strip {
+          grid-template-columns: 1fr;
+        }
+        .workflow-steps {
+          grid-template-columns: 1fr;
+        }
+        .phase-flow {
           grid-template-columns: 1fr;
         }
         .nav { display: none; }
@@ -795,11 +1034,9 @@
         <div class="hero-grid">
           <div>
             <span class="eyebrow">Project summary</span>
-            <h1>Behavior-based AML detection for risky account activity.</h1>
+            <h1>Anti-money laundering detection.</h1>
             <p class="lead">
-              This project created a complete fraud-monitoring prototype that starts with synthetic transaction data,
-              transforms it into account behavior signals, and then detects suspicious activity using multiple anomaly models.
-              The goal was not only to find unusual accounts, but to understand what suspicious behavior looks like in a real AML context.
+              This anti-money laundering project starts with realistic synthetic transaction data, then uses a behavioral approach to study how accounts act over time. The results show that suspicious activity is not just about single unusual transactions, but about changes in timing, volume, and overall patterns that stand out from normal customer behavior. By approaching the problem in different ways, the project was able to identify the accounts most likely to need investigation and highlight where risk is concentrated. In practical terms, this means the method can support faster prioritisation of alerts and a more focused response to potentially suspicious activity.
             </p>
             <div class="hero-actions">
               <a class="button primary" href="#results">See final results</a>
@@ -810,38 +1047,32 @@
           <div class="hero-panel">
             <div class="score-ring" aria-label="Combined risk score 96.6 percent">
               <svg viewBox="0 0 120 120" role="img" aria-hidden="true">
-                <defs>
-                  <linearGradient id="ringGradient" x1="0%" x2="100%" y1="0%" y2="100%">
-                    <stop offset="0%" stop-color="#63d2ff"/>
-                    <stop offset="100%" stop-color="#7ae7c7"/>
-                  </linearGradient>
-                </defs>
                 <circle class="track" cx="60" cy="60" r="48"></circle>
-                <circle class="value" cx="60" cy="60" r="48" stroke-dasharray="301.59" stroke-dashoffset="80.7"></circle>
+                <circle class="value" cx="60" cy="60" r="48" stroke-dasharray="301.59" stroke-dashoffset="10.25"></circle>
               </svg>
               <div class="score-value">96.6%</div>
             </div>
-            <div class="hero-label">Combined risk score performance</div>
+            <div class="hero-label">Overall risk ranking quality from the combined model</div>
           </div>
         </div>
 
         <div class="quick-stats">
-          <div class="stat-card">
+          <a class="stat-card stat-card-link" href="#journey">
             <div class="num">5</div>
             <div class="label">project phases completed from research to detection</div>
-          </div>
-          <div class="stat-card">
+          </a>
+          <a class="stat-card stat-card-link" href="#phase1-data">
             <div class="num">9</div>
             <div class="label">behavior classes simulated, including 3 normal and 6 suspicious</div>
-          </div>
-          <div class="stat-card">
+          </a>
+          <a class="stat-card stat-card-link" href="#results">
             <div class="num">0.966</div>
             <div class="label">ROC-AUC from the final combined risk model</div>
-          </div>
-          <div class="stat-card">
+          </a>
+          <a class="stat-card stat-card-link" href="#drift-patterns">
             <div class="num">4</div>
             <div class="label">key drift patterns identified, led by timing and transaction volume</div>
-          </div>
+          </a>
         </div>
       </section>
 
@@ -911,6 +1142,36 @@
         <div class="section-head">
           <h2>Phase 1 detail: data generation</h2>
           <div class="section-note">Simulation methodology and synthetic pattern design</div>
+        </div>
+
+        <div class="panel phase-flow-widget" style="margin-bottom: 22px;">
+          <h3>Phase 1 visual flow</h3>
+          <p class="lead" style="font-size: 0.98rem; margin-top: 0; color: var(--muted); max-width: none;">
+            Click each step to see how synthetic behavior was created and why it matters for downstream AML detection.
+          </p>
+          <div class="phase-flow" role="tablist" aria-label="Phase 1 generation flow">
+            <button class="phase-flow-step is-active" type="button" aria-selected="true" data-title="1) Define behavior templates" data-text="Normal and suspicious player templates were designed first so transactions follow realistic gaming and laundering behavior patterns." data-outcome="Business outcome: training data reflects expected real-world behavior types, not random synthetic noise.">
+              <span class="step-num">1</span>
+              <p class="step-name">Define behavior templates</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="2) Simulate transactions" data-text="Deposit, play, transfer, and withdrawal events were simulated with timing and amount logic for each behavior type." data-outcome="Business outcome: raw events are behavior-rich and can support meaningful risk feature extraction.">
+              <span class="step-num">2</span>
+              <p class="step-name">Simulate transactions</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="3) Inject suspicious topologies" data-text="Known laundering graph structures such as fan-in, fan-out, and cycle patterns were embedded into account interactions." data-outcome="Business outcome: the dataset includes network behaviors investigators care about in AML operations.">
+              <span class="step-num">3</span>
+              <p class="step-name">Inject suspicious topologies</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="4) Label risk classes" data-text="Each synthetic behavior stream was tagged with normal or suspicious context so model results can be validated later." data-outcome="Business outcome: enables reliable quality checks when comparing detection methods in later phases.">
+              <span class="step-num">4</span>
+              <p class="step-name">Label risk classes</p>
+            </button>
+          </div>
+          <div class="phase-flow-detail" aria-live="polite">
+            <h4 class="phase-flow-detail-title">1) Define behavior templates</h4>
+            <p class="phase-flow-detail-text">Normal and suspicious player templates were designed first so transactions follow realistic gaming and laundering behavior patterns.</p>
+            <p class="phase-flow-detail-outcome" style="margin-top: 10px;"><strong>Business outcome:</strong> training data reflects expected real-world behavior types, not random synthetic noise.</p>
+          </div>
         </div>
 
         <div class="phase-detail-grid">
@@ -997,6 +1258,36 @@
           <div class="section-note">How the schema and account taxonomy were designed</div>
         </div>
 
+        <div class="panel phase-flow-widget" style="margin-bottom: 22px;">
+          <h3>Phase 2 visual flow</h3>
+          <p class="lead" style="font-size: 0.98rem; margin-top: 0; color: var(--muted); max-width: none;">
+            This view shows how the schema moved from business entities to model-ready monitoring structure.
+          </p>
+          <div class="phase-flow" role="tablist" aria-label="Phase 2 design flow">
+            <button class="phase-flow-step is-active" type="button" aria-selected="true" data-title="1) Define core entities" data-text="The design starts from player, session, transaction, and account-transfer entities so business events map directly to data objects." data-outcome="Business outcome: reporting and model outputs can be traced back to operational entities teams already understand.">
+              <span class="step-num">1</span>
+              <p class="step-name">Define core entities</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="2) Add AML context fields" data-text="Routing, channel, timing, device, and location fields were attached to capture behavioral and financial context in every record." data-outcome="Business outcome: supports richer monitoring beyond amount-only alerts.">
+              <span class="step-num">2</span>
+              <p class="step-name">Add AML context fields</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="3) Define taxonomy and labels" data-text="Normal and suspicious behavior classes were standardized with explicit labeling strategy for evaluation and explainability." data-outcome="Business outcome: clearer interpretation of model behavior and reduced ambiguity in risk discussions.">
+              <span class="step-num">3</span>
+              <p class="step-name">Define taxonomy and labels</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="4) Prepare feature-ready structure" data-text="The schema was shaped so transaction-level records can be aggregated into account-level behavioral features efficiently." data-outcome="Business outcome: smoother handoff to feature engineering and faster iteration in modeling stages.">
+              <span class="step-num">4</span>
+              <p class="step-name">Prepare feature-ready structure</p>
+            </button>
+          </div>
+          <div class="phase-flow-detail" aria-live="polite">
+            <h4 class="phase-flow-detail-title">1) Define core entities</h4>
+            <p class="phase-flow-detail-text">The design starts from player, session, transaction, and account-transfer entities so business events map directly to data objects.</p>
+            <p class="phase-flow-detail-outcome" style="margin-top: 10px;"><strong>Business outcome:</strong> reporting and model outputs can be traced back to operational entities teams already understand.</p>
+          </div>
+        </div>
+
         <div class="phase-detail-grid">
           <div class="panel">
             <h3>Methodology</h3>
@@ -1074,6 +1365,36 @@
         <div class="section-head">
           <h2>Phase 3 detail: feature engineering</h2>
           <div class="section-note">Account-level behavioral feature construction from transaction histories</div>
+        </div>
+
+        <div class="panel phase-flow-widget" style="margin-bottom: 22px;">
+          <h3>Phase 3 visual flow</h3>
+          <p class="lead" style="font-size: 0.98rem; margin-top: 0; color: var(--muted); max-width: none;">
+            This map explains how raw transaction logs became model-ready behavior features.
+          </p>
+          <div class="phase-flow" role="tablist" aria-label="Phase 3 feature flow">
+            <button class="phase-flow-step is-active" type="button" aria-selected="true" data-title="1) Consolidate account histories" data-text="All events were grouped by account so each profile captures full behavior over time rather than isolated transactions." data-outcome="Business outcome: each account receives a complete behavioral baseline for monitoring.">
+              <span class="step-num">1</span>
+              <p class="step-name">Consolidate account histories</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="2) Compute feature families" data-text="Rhythm, volatility, session, and money-flow metrics were calculated to capture distinct risk-relevant behavior dimensions." data-outcome="Business outcome: suspicious patterns can be interpreted in plain categories, not opaque raw logs.">
+              <span class="step-num">2</span>
+              <p class="step-name">Compute feature families</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="3) Validate feature quality" data-text="Feature outputs were reviewed for stability and consistency before being used in clustering and anomaly models." data-outcome="Business outcome: reduces false confidence from noisy or unstable signals.">
+              <span class="step-num">3</span>
+              <p class="step-name">Validate feature quality</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="4) Publish model-ready table" data-text="The final account feature table was standardized as a shared input for all downstream fingerprinting and detection tasks." data-outcome="Business outcome: one trusted dataset supports repeatable scoring and faster model comparisons.">
+              <span class="step-num">4</span>
+              <p class="step-name">Publish model-ready table</p>
+            </button>
+          </div>
+          <div class="phase-flow-detail" aria-live="polite">
+            <h4 class="phase-flow-detail-title">1) Consolidate account histories</h4>
+            <p class="phase-flow-detail-text">All events were grouped by account so each profile captures full behavior over time rather than isolated transactions.</p>
+            <p class="phase-flow-detail-outcome" style="margin-top: 10px;"><strong>Business outcome:</strong> each account receives a complete behavioral baseline for monitoring.</p>
+          </div>
         </div>
 
         <div class="panel feature-intro">
@@ -1180,6 +1501,36 @@
         <div class="section-head">
           <h2>Phase 4 detail: behavioral fingerprinting</h2>
           <div class="section-note">Turning account behavior into readable patterns and risk clusters</div>
+        </div>
+
+        <div class="panel phase-flow-widget" style="margin-bottom: 22px;">
+          <h3>Phase 4 visual flow</h3>
+          <p class="lead" style="font-size: 0.98rem; margin-top: 0; color: var(--muted); max-width: none;">
+            This flow shows how behavior profiles were grouped and turned into practical review signals.
+          </p>
+          <div class="phase-flow" role="tablist" aria-label="Phase 4 fingerprinting flow">
+            <button class="phase-flow-step is-active" type="button" aria-selected="true" data-title="1) Build behavior fingerprints" data-text="Each account was represented by its multi-feature behavior signature instead of individual transactions." data-outcome="Business outcome: easier side-by-side comparison between normal and suspicious behavior styles.">
+              <span class="step-num">1</span>
+              <p class="step-name">Build behavior fingerprints</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="2) Reduce dimensions" data-text="PCA simplified the feature space so account relationships become easier to visualize and cluster." data-outcome="Business outcome: clearer communication of risk groups to business stakeholders.">
+              <span class="step-num">2</span>
+              <p class="step-name">Reduce dimensions</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="3) Cluster behavior groups" data-text="Clustering methods separated accounts into behavior archetypes and highlighted suspicious-enriched groups." data-outcome="Business outcome: supports segment-based monitoring instead of one-size-fits-all rules.">
+              <span class="step-num">3</span>
+              <p class="step-name">Cluster behavior groups</p>
+            </button>
+            <button class="phase-flow-step" type="button" aria-selected="false" data-title="4) Detect behavior shifts" data-text="Monthly comparisons identified accounts whose behavior changed sharply over time." data-outcome="Business outcome: prioritizes accounts that may have escalated in risk since prior review cycles.">
+              <span class="step-num">4</span>
+              <p class="step-name">Detect behavior shifts</p>
+            </button>
+          </div>
+          <div class="phase-flow-detail" aria-live="polite">
+            <h4 class="phase-flow-detail-title">1) Build behavior fingerprints</h4>
+            <p class="phase-flow-detail-text">Each account was represented by its multi-feature behavior signature instead of individual transactions.</p>
+            <p class="phase-flow-detail-outcome" style="margin-top: 10px;"><strong>Business outcome:</strong> easier side-by-side comparison between normal and suspicious behavior styles.</p>
+          </div>
         </div>
 
         <div class="panel">
@@ -1291,12 +1642,16 @@
               </div>
               <div class="legend-box"><span class="legend-dot"></span> Silhouette score: higher means clearer separation between behavior groups</div>
             </div>
+            <details class="metric-help">
+              <summary>How to read silhouette score</summary>
+              <p>Silhouette is a clustering quality metric from -1 to 1. Values near 0.5 usually mean reasonably distinct behavior groups, while near 0 means overlap.</p>
+            </details>
             <p class="lead" style="font-size: 1rem; margin-top: 18px; color: var(--muted);">
               The PCA + KMeans approach created the clearest behavioral clusters, suggesting suspicious activity was clustered into recognizable patterns rather than being random noise.
             </p>
           </div>
 
-          <div class="panel">
+          <div class="panel" id="drift-patterns">
             <h3>Drift was concentrated in timing and volume</h3>
             <div class="chart-wrap">
               <div class="bar-group">
@@ -1323,8 +1678,15 @@
               </div>
               <div class="legend-box"><span class="legend-dot"></span> PSI values: larger values indicate stronger behavior shifts over time</div>
             </div>
+            <details class="metric-help">
+              <summary>How to read PSI values</summary>
+              <p>PSI measures how much the distribution of account behavior changed between time periods. Larger values indicate stronger drift, which means the account’s activity is moving away from its normal pattern and deserves closer review.</p>
+            </details>
             <p class="lead" style="font-size: 1rem; margin-top: 18px; color: var(--muted);">
-              The strongest distribution changes were in how often transactions occurred and how irregular the timing became. This is a strong signal that accounts changed behavior over time.
+              The strongest distribution changes were in how often transactions occurred and how irregular the timing became. In plain terms, suspicious accounts were not just transacting more often — they were acting differently, which is a strong sign of behavioral drift over time.
+            </p>
+            <p class="lead" style="font-size: 0.96rem; margin-top: 12px; color: var(--muted);">
+              These four drift patterns point to a broader pattern: account behavior started shifting in rhythm, speed, and volume, which makes the activity look less like normal customer behavior and more like an operational or laundering pattern.
             </p>
           </div>
         </div>
@@ -1343,6 +1705,40 @@
             Phase 5 focused on turning behavioral patterns into practical detection scores. The work was split into two model-development tasks: one for broad anomaly detectors and one for neural-network reconstruction models.
             The objective was to identify which methods best separate suspicious accounts from normal accounts in a way that is reliable for business monitoring.
           </p>
+        </div>
+
+        <div class="panel" style="margin-top: 22px;">
+          <h3>Detection workflow (interactive view)</h3>
+          <p class="lead" style="font-size: 0.98rem; margin-top: 0; color: var(--muted); max-width: none;">
+            Click each step to see what happened, why it mattered, and what output moved to the next stage.
+          </p>
+          <div class="workflow-steps" role="tablist" aria-label="Phase 5 detection workflow">
+            <button class="workflow-step is-active" type="button" data-step="1" aria-selected="true">
+              <span class="step-num">1</span>
+              <p class="step-name">Prepare behavior features</p>
+            </button>
+            <button class="workflow-step" type="button" data-step="2" aria-selected="false">
+              <span class="step-num">2</span>
+              <p class="step-name">Run anomaly detectors</p>
+            </button>
+            <button class="workflow-step" type="button" data-step="3" aria-selected="false">
+              <span class="step-num">3</span>
+              <p class="step-name">Build reconstruction models</p>
+            </button>
+            <button class="workflow-step" type="button" data-step="4" aria-selected="false">
+              <span class="step-num">4</span>
+              <p class="step-name">Combine scores into one rank</p>
+            </button>
+            <button class="workflow-step" type="button" data-step="5" aria-selected="false">
+              <span class="step-num">5</span>
+              <p class="step-name">Deliver investigation priorities</p>
+            </button>
+          </div>
+          <div class="workflow-detail" aria-live="polite">
+            <h4 id="workflow-detail-title">1) Prepare behavior features</h4>
+            <p id="workflow-detail-text">Transaction history was converted into comparable account-level behavior signals, so each account could be measured on timing, volatility, sessions, and flow.</p>
+            <p id="workflow-detail-outcome" style="margin-top: 10px;"><strong>Business outcome:</strong> a consistent input dataset for fair account-to-account risk comparison.</p>
+          </div>
         </div>
 
         <div class="phase-detail-grid" style="margin-top: 22px;">
@@ -1414,6 +1810,10 @@
           <p class="lead" style="font-size: 0.96rem; margin-top: 14px; color: var(--muted); max-width: none;">
             <strong>Note on Combined Risk Score:</strong> In this implementation, the combined risk score is a consensus average of the core Task 1 detector scores (Isolation Forest, Local Outlier Factor, One-Class SVM, statistical outlier score, and Mahalanobis distance), with the LSTM autoencoder score included when sequence data is available for that account. Higher values indicate higher AML risk priority.
           </p>
+          <details class="metric-help">
+            <summary>How to read ROC-AUC and PR-AUC</summary>
+            <p>ROC-AUC measures ranking quality across all thresholds. PR-AUC emphasizes how well high-risk accounts are captured with fewer false alarms; this is usually more actionable for investigation teams.</p>
+          </details>
         </div>
 
         <div class="mini-grid" style="margin-top: 22px;">
@@ -1467,6 +1867,8 @@
       </section>
     </main>
 
+    <button class="back-to-top" type="button" aria-label="Back to top">Back to top ↑</button>
+
     <footer class="footer container">
       LTGuardian AML project overview • Research, feature engineering, behavior analysis, and anomaly detection
     </footer>
@@ -1516,6 +1918,126 @@
           }
         });
       });
+
+      const workflowButtons = document.querySelectorAll('.workflow-step');
+      const workflowTitle = document.getElementById('workflow-detail-title');
+      const workflowText = document.getElementById('workflow-detail-text');
+      const workflowOutcome = document.getElementById('workflow-detail-outcome');
+
+      const workflowDetails = {
+        '1': {
+          title: '1) Prepare behavior features',
+          text: 'Transaction history was converted into comparable account-level behavior signals, so each account could be measured on timing, volatility, sessions, and flow.',
+          outcome: '<strong>Business outcome:</strong> a consistent input dataset for fair account-to-account risk comparison.'
+        },
+        '2': {
+          title: '2) Run anomaly detectors',
+          text: 'Multiple detection models scored each account from different angles, including distance, density, and isolation behavior.',
+          outcome: '<strong>Business outcome:</strong> broader risk coverage with fewer blind spots from any single model.'
+        },
+        '3': {
+          title: '3) Build reconstruction models',
+          text: 'Autoencoders learned normal behavior and flagged accounts that were difficult to reconstruct, indicating unusual patterns.',
+          outcome: '<strong>Business outcome:</strong> stronger signal for subtle anomalies that do not appear in classic outlier scoring.'
+        },
+        '4': {
+          title: '4) Combine scores into one rank',
+          text: 'Core model outputs were blended into a single risk score so investigators can work from one priority queue rather than many separate model lists.',
+          outcome: '<strong>Business outcome:</strong> simpler triage workflow and clearer ownership for frontline review teams.'
+        },
+        '5': {
+          title: '5) Deliver investigation priorities',
+          text: 'Accounts were ordered by final risk score and supported by feature-level evidence, enabling targeted review with explainable signals.',
+          outcome: '<strong>Business outcome:</strong> faster decision-making on which accounts to investigate first.'
+        }
+      };
+
+      workflowButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const stepId = button.getAttribute('data-step');
+          const detail = stepId ? workflowDetails[stepId] : null;
+          if (!detail) return;
+
+          workflowButtons.forEach((otherButton) => {
+            const isCurrent = otherButton === button;
+            otherButton.classList.toggle('is-active', isCurrent);
+            otherButton.setAttribute('aria-selected', String(isCurrent));
+          });
+
+          if (workflowTitle) workflowTitle.textContent = detail.title;
+          if (workflowText) workflowText.textContent = detail.text;
+          if (workflowOutcome) workflowOutcome.innerHTML = detail.outcome;
+        });
+      });
+
+      const phaseFlowWidgets = document.querySelectorAll('.phase-flow-widget');
+
+      phaseFlowWidgets.forEach((widget) => {
+        const flowButtons = widget.querySelectorAll('.phase-flow-step');
+        const detailTitle = widget.querySelector('.phase-flow-detail-title');
+        const detailText = widget.querySelector('.phase-flow-detail-text');
+        const detailOutcome = widget.querySelector('.phase-flow-detail-outcome');
+
+        flowButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            flowButtons.forEach((otherButton) => {
+              const isCurrent = otherButton === button;
+              otherButton.classList.toggle('is-active', isCurrent);
+              otherButton.setAttribute('aria-selected', String(isCurrent));
+            });
+
+            const title = button.getAttribute('data-title') || '';
+            const text = button.getAttribute('data-text') || '';
+            const outcome = button.getAttribute('data-outcome') || '';
+
+            if (detailTitle) detailTitle.textContent = title;
+            if (detailText) detailText.textContent = text;
+            if (detailOutcome) detailOutcome.innerHTML = `<strong>Business outcome:</strong> ${outcome.replace('Business outcome: ', '')}`;
+          });
+        });
+      });
+
+      const sectionLinks = document.querySelectorAll('.nav a[href^="#"]');
+      const observedSections = Array.from(sectionLinks)
+        .map((link) => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+
+      const setActiveNav = () => {
+        let activeId = '';
+        const threshold = window.scrollY + 140;
+
+        observedSections.forEach((section) => {
+          if (section.offsetTop <= threshold) {
+            activeId = section.id;
+          }
+        });
+
+        sectionLinks.forEach((link) => {
+          const isActive = link.getAttribute('href') === `#${activeId}`;
+          link.classList.toggle('is-active', isActive);
+        });
+      };
+
+      const backToTopButton = document.querySelector('.back-to-top');
+
+      const toggleBackToTop = () => {
+        if (!backToTopButton) return;
+        backToTopButton.classList.toggle('is-visible', window.scrollY > 500);
+      };
+
+      if (backToTopButton) {
+        backToTopButton.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      window.addEventListener('scroll', () => {
+        setActiveNav();
+        toggleBackToTop();
+      });
+
+      setActiveNav();
+      toggleBackToTop();
     </script>
   </body>
 </html>
