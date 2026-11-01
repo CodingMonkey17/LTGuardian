@@ -91,6 +91,27 @@ Then open:
 http://localhost:8000/report/
 ```
 
+## Netlify deployment (automated)
+
+This repository is configured for Netlify with [netlify.toml](netlify.toml). The publish directory is set to `report`, so every push to the production branch can deploy the latest summary site automatically.
+
+### One-time setup
+
+1. Push this repository to GitHub.
+2. In Netlify, select **Add new site** -> **Import an existing project**.
+3. Choose the GitHub repository.
+4. Keep the detected settings from `netlify.toml`.
+5. Select **Deploy site**.
+
+### Ongoing workflow
+
+- Push changes to `report/index.html` (and any files under `report/assets`).
+- Netlify triggers a new build and publishes automatically.
+
+### Optional preview flow
+
+If you want preview links for changes before production, configure Netlify to deploy pull requests. Then each PR gets its own preview URL.
+
 ## Re-running the notebooks
 
 Activate the virtual environment:
