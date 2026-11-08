@@ -4,7 +4,7 @@
 
 This project explores how behavioural analytics can support anti-money laundering monitoring in online gaming and digital payment environments. The work combines synthetic data generation, feature engineering, behavioural fingerprinting, drift analysis, and anomaly detection to build a practical AML detection prototype.
 
-The main presentation for the project is the summary website in [report/index.html](report/index.html). This page is designed to explain the work in a clearer, business-friendly way and highlight the key findings without requiring technical reading.
+The main presentation for the project is the summary website in [report/index.html](report/index.html). This page is designed to explain the work in a clearer, business-friendly way and highlight the key findings without requiring technical reading. The website has also been deployed and synced with this repo at the link: https://ltguardian-aml.netlify.app/
 
 ## Scope of the work
 
